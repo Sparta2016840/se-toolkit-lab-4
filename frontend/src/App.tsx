@@ -4,12 +4,12 @@ import './App.css'
 const STORAGE_KEY = 'api_token'
 
 interface Item {
-  id: number
-  type: string
-  title: string
-  created_at: string
+  id: number;
+  title: string;
+  type: string;
+  parent_id: number | null;
+  description: string | null;
 }
-
 function App() {
   const [token, setToken] = useState(
     () => localStorage.getItem(STORAGE_KEY) ?? '',

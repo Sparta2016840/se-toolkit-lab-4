@@ -24,3 +24,19 @@ def test_filter_returns_interaction_with_matching_ids() -> None:
     result = _filter_by_item_id(interactions, 1)
     assert len(result) == 1
     assert result[0].id == 1
+
+def test_filter_excludes_interaction_with_different_learner_id() -> None:
+    interactions = [_make_log(1, learner_id=2, item_id=1)]
+    result = _filter_by_item_id(interactions, 1)
+    assert len(result) == 1
+    assert result[0].id == 1
+
+def test_filter_includes_only_matching_item_id_when_multiple() -> None:
+    interactions = [_make_log(1, 10, 5), _make_log(2, 11, 6), _make_log(3, 12, 5)]
+    result = _filter_by_item_id(interactions, 5)
+    assert [i.id for i in result] == [1, 3]
+
+def test_filter_returns_empty_when_no_item_matches() -> None:
+    interactions = [_make_log(1, 1, 1), _make_log(2, 2, 2)]
+    result = _filter_by_item_id(interactions, 999)
+    assert result == []
